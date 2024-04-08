@@ -3,10 +3,14 @@ class Deq:
     Реализация дека на базе вектора
     для языка Python она тривиальна)
     """
-    # Конструктор
 
+    # Конструктор
     def __init__(self):
         self.array = []
+
+    # Текстовое отображение
+    def __repr__(self):  # pragma: no cover
+        return str(self.array)
 
     # Количество элементов в деке
     def size(self):

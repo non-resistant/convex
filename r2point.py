@@ -12,10 +12,27 @@ class R2Point:
             y = float(input("y -> "))
         self.x, self.y = x, y
 
+    # Текстовое отображение
+    def __repr__(self):  # pragma: no cover
+        return f'({self.x}, {self.y})'
+
+    # Разность радиус-векторов
+    def __sub__(self, other):
+        return R2Point(self.x - other.x, self.y - other.y)
+
+    # Скалярное произведение радиус-векторов
+    def __mul__(self, other):
+        return self.x * other.x + self.y * other.y
+
+    # Третья компонента векторного произведения радиус-векторов
+    @staticmethod
+    def cross_z(a, b):
+        return a.x * b.y - a.y * b.x
+
     # Площадь треугольника
     @staticmethod
     def area(a, b, c):
-        return 0.5 * ((a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x))
+        return 0.5 * R2Point.cross_z(a - c, b - c)
 
     # Лежат ли точки на одной прямой?
     @staticmethod
@@ -29,9 +46,9 @@ class R2Point:
     # Лежит ли точка внутри "стандартного" прямоугольника?
     def is_inside(self, a, b):
         return (((a.x <= self.x and self.x <= b.x) or
-                 (a.x >= self.x and self.x >= b.x)) and
-                ((a.y <= self.y and self.y <= b.y) or
-                 (a.y >= self.y and self.y >= b.y)))
+                 (a.x >= self.x and self.x >= b.x))
+                and ((a.y <= self.y and self.y <= b.y) or
+                     (a.y >= self.y and self.y >= b.y)))
 
     # Освещено ли из данной точки ребро (a,b)?
     def is_light(self, a, b):
@@ -43,6 +60,11 @@ class R2Point:
         if isinstance(other, type(self)):
             return self.x == other.x and self.y == other.y
         return False
+
+    # Угол при вершине острый и больший 45 градусов
+    def good(self, a, b):
+        return abs(R2Point.cross_z(a - self,
+                                   b - self)) > (a - self) * (b - self) > 0
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -6,7 +6,6 @@ f = Void()
 try:
     while True:
         f = f.add(R2Point())
-        print(f"S = {f.area()}, P = {f.perimeter()}")
-        print()
+        print(f"S = {f.area()}, P = {f.perimeter()} N = {f.angle_number()}\n")
 except (EOFError, KeyboardInterrupt):
     print("\nStop")
